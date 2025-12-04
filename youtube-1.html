@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube 再生サイト</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 40px;
+        }
+        #player {
+            margin-top: 20px;
+        }
+        input {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>YouTube リンクを入力して再生</h2>
+
+    <input type="text" id="urlInput" placeholder="https://www.youtube.com/watch?v=xxxxxx">
+    <button onclick="loadVideo()">再生</button>
+
+    <div id="player"></div>
+
+    <script>
+        function loadVideo() {
+            const url = document.getElementById("urlInput").value;
+
+            // YouTube の動画IDを取り出す
+            const videoId = extractVideoId(url);
+
+            if (!videoId) {
+                alert("正しい YouTube リンクを入力してください！");
+                return;
+            }
+
+            // iframe を表示
+            document.getElementById("player").innerHTML = `
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/${videoId}"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>`;
+        }
+
+        // YouTube の動画 ID を取得する関数
+        function extractVideoId(url) {
+            const regex = /(?:v=|youtu\.be\/)([^&]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+    </script>
+
+</body>
+</html>
